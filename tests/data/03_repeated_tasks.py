@@ -1,4 +1,4 @@
-from src.orgparse.date import OrgDateDeadline, OrgDateRepeatedTask
+from orgparse.date import OrgDateDeadline, OrgDateRepeatedTask
 
 data = [{
     'heading': 'Pay the rent',

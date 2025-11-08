@@ -1,4 +1,4 @@
-from src.orgparse.date import OrgDateClock
+from orgparse.date import OrgDateClock
 
 data = [{
     'heading': 'LOGBOOK drawer test',

@@ -4,8 +4,8 @@ Tests for rich formatting: tables etc.
 
 import pytest
 
-from .. import loads
-from ..extra import Table
+from orgparse import loads
+from orgparse.extra import Table
 
 
 def test_table() -> None:

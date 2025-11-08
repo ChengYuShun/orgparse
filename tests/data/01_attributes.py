@@ -1,6 +1,6 @@
 from typing import Any
 
-from src.orgparse.date import (
+from orgparse.date import (
     OrgDate,
     OrgDateClock,
     OrgDateClosed,

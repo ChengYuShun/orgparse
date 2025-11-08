@@ -1,6 +1,6 @@
 import pickle
 
-from .. import loadi
+from orgparse import loadi
 
 
 def generate_org_lines(num_top_nodes, depth=3, nodes_per_level=1, _level=1):

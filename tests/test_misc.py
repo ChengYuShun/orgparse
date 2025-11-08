@@ -2,10 +2,9 @@ import io
 
 import pytest
 
-from src.orgparse.date import OrgDate
-
-from .. import load, loads
-from ..node import OrgEnv
+from orgparse import load, loads
+from orgparse.date import OrgDate
+from orgparse.node import OrgEnv
 
 
 def test_empty_heading() -> None:

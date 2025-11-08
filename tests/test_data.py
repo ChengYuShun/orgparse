@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from .. import load, loads
+from orgparse import load, loads
 
 DATADIR = Path(__file__).parent / 'data'
 

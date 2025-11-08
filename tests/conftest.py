@@ -9,13 +9,17 @@ from typing import Optional
 import _pytest.main
 import _pytest.pathlib
 
-# we consider all dirs in repo/ to be namespace packages
-root_dir = pathlib.Path(__file__).absolute().parent.resolve() / 'src'
-assert root_dir.exists(), root_dir
+# Get the project root directory (where tox.ini, pyproject.toml live)
+# conftest.py is in tests/, so we need to go up one level to get to project root
+conftest_path = pathlib.Path(__file__).absolute()
+project_root = conftest_path.parent.parent.resolve()
+src_dir = project_root / 'src'
+
+assert src_dir.exists(), f"Expected src directory at {src_dir}, but it doesn't exist. Project root: {project_root}"
 
 # TODO assert it contains package name?? maybe get it via setuptools..
 
-namespace_pkg_dirs = [str(d) for d in root_dir.iterdir() if d.is_dir()]
+namespace_pkg_dirs = [str(d) for d in src_dir.iterdir() if d.is_dir()]
 
 # resolve_package_path is called from _pytest.pathlib.import_path
 # takes a full abs path to the test file and needs to return the path to the 'root' package on the filesystem
@@ -31,7 +35,7 @@ def resolve_package_path(path: pathlib.Path) -> Optional[pathlib.Path]:
         # ??? for some reason on windows it is trying to call this against conftest? but not on linux/osx
         if path.name == 'conftest.py':
             return resolve_pkg_path_orig(path)
-    raise RuntimeError("Couldn't determine path for ", path)
+    raise RuntimeError(f"Couldn't determine path for {path}")
 
 
 # NOTE: seems like it's not necessary anymore?
@@ -48,11 +52,11 @@ search_pypath_orig = _pytest.main.search_pypath
 
 
 def search_pypath(module_name: str) -> str:
-    mpath = root_dir / module_name.replace('.', os.sep)
+    mpath = src_dir / module_name.replace('.', os.sep)
     if not mpath.is_dir():
         mpath = mpath.with_suffix('.py')
-        assert mpath.exists(), mpath  # just in case
+        assert mpath.exists(), f"Expected module at {mpath}, but it doesn't exist"  # just in case
     return str(mpath)
 
 
-_pytest.main.search_pypath = search_pypath  # ty: ignore[invalid-assignment]
+_pytest.main.search_pypath = search_pypath  # type: ignore[assignment]

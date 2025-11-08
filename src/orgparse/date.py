@@ -320,12 +320,18 @@ class OrgDate:
     def __eq__(self, other) -> bool:
         if isinstance(other, OrgDate) and self._start is None and other._start is None:
             return True
-        return (
+        ret = (
             isinstance(other, self.__class__)
             and self._start == other._start
             and self._end == other._end
             and self._active == other._active
         )
+        if ret is False:
+            print(self.__class__, other.__class__, isinstance(other, self.__class__))
+            print(self._start, other._start, self._start == other._start)
+            print(self._end, other._end, self._end == other._end)
+            print(self._active, other._active, self._active == other._active)
+        return ret
 
     @property
     def start(self) -> DateIsh:
@@ -707,6 +713,7 @@ class OrgDateRepeatedTask(OrgDate):
         return hash((self._before, self._after))
 
     def __eq__(self, other) -> bool:
+        print(self.__class__, other.__class__, isinstance(other, self.__class__))
         return (
             super().__eq__(other)
             and isinstance(other, self.__class__)
