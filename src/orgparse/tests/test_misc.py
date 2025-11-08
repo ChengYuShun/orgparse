@@ -2,7 +2,7 @@ import io
 
 import pytest
 
-from orgparse.date import OrgDate
+from src.orgparse.date import OrgDate
 
 from .. import load, loads
 from ..node import OrgEnv
